@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %} Portchecker {% endblock %}
+{% block body %}
+<body>
+	<div class = "p-3">
+<div class='container mt-4'>
+<h1 class='text-secondary'> Your IP is <kbd class='bg-primary'>{{ip}}</kbd></h1>
+<h1 class='text-secondary' id='h1port'> Port to check (TCP only) : <kbd class='bg-primary' id="display_port"></kbd></h1>
+<h1 class='text-secondary' id='res'> Result : <kbd id="display_result"></kbd></h1>
+<p id='display_scan'></p>
+<table class="table table-hover table-sm table-borderless" style="width:400px" id='table'>
+	<thead class='text-white'>
+		<tr class='bg-dark'>
+		<th scope="col"><center>Services</center></th>
+		<th scope="col"><center>Ports</center></th>
+		<th scope="col"><center>Results</center></th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for num in nums%}
+		<tr id='row{{-num}}'>
+			<th><center id='s{{-num}}'></center></th>
+			<th><center id='p{{-num}}'></center></th>
+			<th><center id='r{{-num}}'></center></th>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+<br>
+<div class="input-group m-2" style="width: 
+  270px">
+  <input type="text" class="form-control" placeholder="Port to check : " aria-label="Port" aria-describedby="basic-addon2" id='port' >
+  <div class="input-group-append">
+    <button class="btn btn-outline-primary" id='checkbtn' onclick="Update()">Check port <span class="badge bg-primary text-white" id='realtimep'></span></button>
+  </div>
+</div>
+
+<div class="input-group m-2 mt-4">
+  <div class="input-group-prepend">
+    <span class="input-group-text lead">Or</span>
+    <button onclick="scan()" class="btn btn-outline-primary" type="button"> Scan</button>
+  </div>
+   <span class="input-group-text lead">every popular port?</span>
+</div>
+
+</div>
+
+	</div>
+</body>
+{% endblock %}

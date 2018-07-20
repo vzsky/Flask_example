@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}Layki list{% endblock %}
+{% block body %}
+<body background="{{ url_for('static', filename = 'pg.png') }}">
+	<div class='container mt-5'>
+		<div class="row">
+			<div class="col-lg">
+				<h1>{{user-}}'s Todolist <a class='ml-3' href="/logout"><button class='btn btn-primary'>Log out</button></a></h1>
+
+				<form action="{{ url_for('add') }}" method="POST">
+					<div class="input-group mt-4 mb-3">
+			  			<input type="text" class="form-control" placeholder="More homeworks are coming..." aria-label="Homework..." aria-describedby="basic-addon1" name='add'>
+			  			 <div class="input-group-append">
+			    			<input type="submit" name="add" value="Add" class="btn btn-outline-white">
+			  			</div>
+					</div>
+				</form>
+
+				<div class='container ml-5 mr-5 pr-5'>
+					<div class='mt-2 mb-2'>
+						<h2>Ongoing HW.</h2>
+
+						<ul class='list-group'>
+							{% for x in incom %}
+							<a class='list-group-item list-group-item-action list-group-item-warning' href="{{url_for('complete',id=x.id)}}"> {{x.text}}</a>
+							{% endfor %}
+						</ul>
+					</div>
+					<div class='mt-2 mb-2'>
+						<h2>Sending</h2>
+
+						<ul class='list-group'>
+							{% for x in complete %}
+							<a class='list-group-item list-group-item-action list-group-item-success' href="{{url_for('sent',id=x.id)}}"> {{x.text}}</a>
+							{% endfor %}
+						</ul>
+					</div>
+				</div>
+				<br>
+				<br>
+			</div>
+
+			<div class="col-lg">
+				<div class="container mt-3">
+					<h2>Todo list</h2>
+					<form action="{{ url_for('addt') }}" method="POST">
+						<div class="input-group mt-4 mb-3">
+				  			<input type="text" class="form-control" placeholder="What to do next?" aria-label="Todo" aria-describedby="basic-addon1" name='addt'>
+				  			 <div class="input-group-append">
+				    			<input type="submit" name="addt" value="Add" class="btn btn-outline-white">
+				  			</div>
+						</div>
+					</form>
+					<ul class='list-group'>
+						{% for x in todos %}
+						<a class='list-group-item list-group-item-action list-group-item-primary' href="{{url_for('rmtd',id=x.id)}}"> {{x.text}}</a>
+						{% endfor %}
+					</ul>
+				</div>
+
+				<div class="container mt-3">
+					<h2>Note</h2>
+					<form action="{{ url_for('addn') }}" method="POST">
+						<div class="input-group mt-4 mb-3">
+				  			<input type="text" class="form-control" placeholder="Note.." aria-label="Note" aria-describedby="basic-addon1" name='addn'>
+				  			 <div class="input-group-append">
+				    			<input type="submit" name="addn" value="Add" class="btn btn-outline-white">
+				  			</div>
+						</div>
+					</form>
+					<ul class='list-group'>
+						{% for x in notes %}
+						<a class='list-group-item list-group-item-action list-group-item-primary' href="{{url_for('rmnt',id=x.id)}}"> {{x.text}}</a>
+						{% endfor %}
+					</ul>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</body>
+{% endblock %}

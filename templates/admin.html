@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Layki list{% endblock %}
+{% block body %}
+<body background="{{ url_for('static', filename = 'pg.png') }}">
+	<div class='mt-5 container'>
+		<h1>admin panel. <a class='ml-2' href="/logout"><button class='btn btn-primary'>Log out</button></a></h1>
+		<div class="container mt-3">
+			<h2>Users list.</h2>
+			<ul>
+				<div class='container mt-3'>
+					{% for user in alluser %}
+						<a class='list-group-item list-group-item-action list-group-item-danger' href="{{url_for('rmuser',id=user.id)}}">{{user.id}} {{user.username}}</a>
+					{% endfor %}
+				</div>
+			</ul>
+		</div>
+	</div>
+</body>
+{% endblock %}
