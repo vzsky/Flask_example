@@ -32,7 +32,7 @@ function scan() {
 
 	req = $.ajax({
 		url : '/port/scan',
-		type : 'POST',
+		type : 'POST'
 	});
 	req.done(function(data){
 		for (x=0;x<9;x++) {
@@ -71,7 +71,7 @@ $( document ).ready(function() {
 function login(){
 	req = $.ajax({
 		url : '/login',
-		type : 'POST',
+		type : 'POST'
 	});
 	req.done(function(data){
 		console.log('yay')
