@@ -50,7 +50,7 @@ def login():
 				return redirect(url_for('todolist'))
 			else : 
 				mes = 'Wrong password / Used username'
-				return jsonify({'result' : mes})
+				return render_template('login.html', mes=mes)
 		else :
 			if request.form['username'] and request.form['password']:
 				adduser = user(username=request.form['username'], password=request.form['password'])
@@ -60,7 +60,7 @@ def login():
 				return redirect(url_for('todolist'))
 			else :
 				mes = 'Input username and password to sign up'
-				return jsonify({'result' : mes})
+				return render_template('login.html', mes=mes)
 	return render_template('login.html')
 	
 

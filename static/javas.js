@@ -67,13 +67,3 @@ $( document ).ready(function() {
 	});
 
 });
-
-function login(){
-	req = $.ajax({
-		url : '/login',
-		type : 'POST'
-	});
-	req.done(function(data){
-		console.log('yay')
-	});
-}
