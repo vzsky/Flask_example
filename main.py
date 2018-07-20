@@ -62,6 +62,7 @@ def login():
 				mes = 'Input username and password to sign up'
 				return render_template('login.html', mes=mes)
 	return render_template('login.html')
+	
 
 @app.route('/todolist/admin/rmuser/<id>')
 def rmuser(id):
