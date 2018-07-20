@@ -1,7 +1,11 @@
 from data_port import check, scan
 import json
-from flask import Flask, render_template, request, redirect, url_for, session, g
+from flask import Flask, render_template, request, redirect, url_for, session, g, jsonify
 from flask_sqlalchemy import SQLAlchemy
+
+
+# App config ##################################################################################################
+
 
 app = Flask(__name__)
 app.secret_key = '1qaz@WSX3edc$RFV5tgb^YHN'
@@ -9,6 +13,10 @@ app.secret_key = '1qaz@WSX3edc$RFV5tgb^YHN'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/talay/dev_root/todo.db'
 
 db = SQLAlchemy(app)
+
+
+#This is for TODOLIST ##########################################################################################
+
 
 class hw (db.Model) :
 	id = db.Column(db.Integer, primary_key=True)
@@ -66,30 +74,6 @@ def rmuser(id):
 def logout():
 	session.pop('user', None)
 	return redirect(url_for('todolist'))
-	
-def get_remote_ip():
-    return request.environ['HTTP_X_REAL_IP']
-
-@app.route('/port', methods=['GET' , 'POST'])
-def port():
-    _ip = get_remote_ip()
-    num = []
-    for x in range (9):
-        num.append(x)
-    return render_template('portcheck.html', ip=_ip, nums=num)
-
-@app.route('/port/scan', methods=['POST'])
-def toscan():
-    _ip = get_remote_ip()
-    ar, p, c, s = scan(_ip)
-    return jsonify({'result' : ar, 'ports' : p, 'color' : c, 'services' : s})
-
-@app.route('/port/update', methods=['POST'])
-def update():
-    _ip = get_remote_ip()
-    port = int(request.form['port'])
-    res, c = check(_ip, port)
-    return jsonify({'result' : res, 'color' : c })
 
 @app.route('/todolist')
 def todolist():
@@ -163,6 +147,38 @@ def sent(id):
 		db.session.delete(std)
 		db.session.commit()
 	return redirect(url_for('todolist'))
+
+
+#This is for PORTCHECKER #####################################################################################
+
+
+def get_remote_ip():
+    return request.remote_addr
+
+@app.route('/port', methods=['GET' , 'POST'])
+def portcheck():
+    _ip = get_remote_ip()
+    num = []
+    for x in range (9):
+        num.append(x)
+    return render_template('portcheck.html', ip=_ip, nums=num)
+
+@app.route('/port/scan', methods=['POST'])
+def toscan():
+    _ip = get_remote_ip()
+    ar, p, c, s = scan(_ip)
+    return jsonify({'result' : ar, 'ports' : p, 'color' : c, 'services' : s})
+
+@app.route('/port/update', methods=['POST'])
+def update():
+    _ip = get_remote_ip()
+    port = int(request.form['port'])
+    res, c = check(_ip, port)
+    return jsonify({'result' : res, 'color' : c })
+
+
+############################################################################################################
+
 
 if __name__ == "__main__":
     app.debug = True
