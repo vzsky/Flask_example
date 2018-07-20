@@ -14,7 +14,7 @@ def check(host, port):
     except socket.error:
         res = 'closed'
 
-    c={'closed':'danger','timeout':'warning','success':'success'}
+    c={'closed':'danger','timeout':'warning','opened':'success','success':'success'}
     col = c.get(res, 'primary')
 
     return res, col
