@@ -74,6 +74,6 @@ function login(){
 		type : 'POST',
 	});
 	req.done(function(data){
-		$().alert('closed');
+		console.log('yay')
 	});
 }
