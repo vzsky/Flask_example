@@ -2,7 +2,7 @@ from data_port import check, scan
 import json
 from flask import Flask, render_template, request, redirect, url_for, session, g, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from todolist import hw, user, add, rm, get
+from todolist import  add, rm, get
 
 
 # App config ##################################################################################################
@@ -17,6 +17,20 @@ db = SQLAlchemy(app)
 
 
 #This is for TODOLIST ##########################################################################################
+
+class hw (db.Model) :
+	id = db.Column(db.Integer, primary_key=True)
+	text = db.Column(db.String(200))
+	complete = db.Column(db.Boolean)
+	field = db.Column(db.Integer)
+	userid = db.Column(db.Integer)
+	db.session.commit()
+
+class user (db.Model) :
+	id = db.Column(db.Integer, primary_key=True)
+	username = db.Column(db.String(30), unique=True)
+	password = db.Column(db.String(100))
+	db.session.commit()
 
 @app.before_request
 def be4req():
