@@ -31,7 +31,7 @@
 
 						<ul class='list-group'>
 							{% for x in complete %}
-							<a class='list-group-item list-group-item-action list-group-item-success' href="{{url_for('sent',id=x.id)}}"> {{x.text}}</a>
+							<a class='list-group-item list-group-item-action list-group-item-success' href="{{url_for('rm',id=x.id)}}"> {{x.text}}</a>
 							{% endfor %}
 						</ul>
 					</div>
@@ -53,7 +53,7 @@
 					</form>
 					<ul class='list-group'>
 						{% for x in todos %}
-						<a class='list-group-item list-group-item-action list-group-item-primary' href="{{url_for('rmtd',id=x.id)}}"> {{x.text}}</a>
+						<a class='list-group-item list-group-item-action list-group-item-primary' href="{{url_for('rm',id=x.id)}}"> {{x.text}}</a>
 						{% endfor %}
 					</ul>
 				</div>
@@ -70,7 +70,7 @@
 					</form>
 					<ul class='list-group'>
 						{% for x in notes %}
-						<a class='list-group-item list-group-item-action list-group-item-primary' href="{{url_for('rmnt',id=x.id)}}"> {{x.text}}</a>
+						<a class='list-group-item list-group-item-action list-group-item-primary' href="{{url_for('rm',id=x.id)}}"> {{x.text}}</a>
 						{% endfor %}
 					</ul>
 				</div>

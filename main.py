@@ -2,6 +2,7 @@ from data_port import check, scan
 import json
 from flask import Flask, render_template, request, redirect, url_for, session, g, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from todolist import hw, user, add, rm, get
 
 
 # App config ##################################################################################################
@@ -16,21 +17,6 @@ db = SQLAlchemy(app)
 
 
 #This is for TODOLIST ##########################################################################################
-
-
-class hw (db.Model) :
-	id = db.Column(db.Integer, primary_key=True)
-	text = db.Column(db.String(200))
-	complete = db.Column(db.Boolean)
-	field = db.Column(db.Integer)
-	userid = db.Column(db.Integer)
-	db.session.commit()
-
-class user (db.Model) :
-	id = db.Column(db.Integer, primary_key=True)
-	username = db.Column(db.String(30), unique=True)
-	password = db.Column(db.String(100))
-	db.session.commit()
 
 @app.before_request
 def be4req():
@@ -66,9 +52,7 @@ def login():
 
 @app.route('/todolist/admin/rmuser/<id>')
 def rmuser(id):
-	rmuser=user.query.filter_by(id=id).first()
-	db.session.delete(rmuser)
-	db.session.commit()
+	rm(id, user, db)
 	return redirect(url_for('todolist'))
 
 @app.route('/logout')
@@ -83,10 +67,7 @@ def todolist():
 		if thisuser.username == 'admin':
 			alluser = user.query.all()
 			return render_template('admin.html', alluser=alluser)
-		complete = hw.query.filter_by(userid=thisuser.id).filter_by(complete=True).filter_by(field=0).all()
-		incom = hw.query.filter_by(userid=thisuser.id).filter_by(complete=False).filter_by(field=0).all()
-		todos = hw.query.filter_by(userid=thisuser.id).filter_by(field=1).all()
-		notes = hw.query.filter_by(userid=thisuser.id).filter_by(field=2).all()
+		complete, incom, todos, notes = get(hw, thisuser)
 		return render_template('todo.html',user=session['user'], complete=complete, incom=incom, todos=todos, notes=notes)
 	return redirect(url_for('login'))
 
@@ -94,43 +75,21 @@ def todolist():
 def add():
 	if g.user :
 		thisuser = user.query.filter_by(username=session['user']).first()
-		td = hw(userid=thisuser.id, text=request.form['add'], complete=False, field=0)
-		db.session.add(td)
-		db.session.commit()
+		add(thisuser, request.form['add'], 0, db)
 	return redirect(url_for('todolist'))
 
 @app.route('/todolist/addt', methods=['POST'])
 def addt():
 	if g.user :
 		thisuser = user.query.filter_by(username=session['user']).first()
-		td = hw(userid=thisuser.id, text=request.form['addt'], complete=False, field=1)
-		db.session.add(td)
-		db.session.commit()
-	return redirect(url_for('todolist'))
-
-@app.route('/todolist/rmtodo/<id>')
-def rmtd(id):
-	if g.user :
-		std = hw.query.filter_by(id=int(id)).first()
-		db.session.delete(std)
-		db.session.commit()
+		add(thisuser, request.form['addt'], 1, db)
 	return redirect(url_for('todolist'))
 
 @app.route('/todolist/addn', methods=['POST'])
 def addn():
 	if g.user :
 		thisuser = user.query.filter_by(username=session['user']).first()
-		td = hw(userid=thisuser.id, text=request.form['addn'], complete=False, field=2)
-		db.session.add(td)
-		db.session.commit()
-	return redirect(url_for('todolist'))
-
-@app.route('/todolist/rmnote/<id>')
-def rmnt(id):
-	if g.user :
-		std = hw.query.filter_by(id=int(id)).first()
-		db.session.delete(std)
-		db.session.commit()
+		add(thisuser, request.form['addn'], 2, db)
 	return redirect(url_for('todolist'))
 
 @app.route('/todolist/c/<id>')
@@ -141,13 +100,12 @@ def complete(id):
 		db.session.commit()
 	return redirect(url_for('todolist'))
 
-@app.route('/todolist/s/<id>')
-def sent(id):
+@app.route('/todolist/rm/<id>')
+def rmtd(id):
 	if g.user :
-		std = hw.query.filter_by(id=int(id)).first()
-		db.session.delete(std)
-		db.session.commit()
+		rm(id, hw, db)
 	return redirect(url_for('todolist'))
+
 
 
 #This is for PORTCHECKER #####################################################################################
