@@ -2,7 +2,7 @@ from data_port import check, scan
 import json
 from flask import Flask, render_template, request, redirect, url_for, session, g, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from todolist import  additem, rm, get
+from todolist import  additem, remove, get
 
 
 # App config ##################################################################################################
@@ -66,7 +66,7 @@ def login():
 
 @app.route('/todolist/admin/rmuser/<id>')
 def rmuser(id):
-	rm(id, user, db)
+	remove(id, user, db)
 	return redirect(url_for('todolist'))
 
 @app.route('/logout')
@@ -117,7 +117,7 @@ def complete(id):
 @app.route('/todolist/rm/<id>')
 def rm(id):
 	if g.user :
-		rm(id, hw, db)
+		remove(id, hw, db)
 	return redirect(url_for('todolist'))
 
 

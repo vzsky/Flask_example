@@ -10,7 +10,7 @@ def additem(thisuser, tex, f, hw,  db):
 	db.session.add(td)
 	db.session.commit()
 
-def rm(id, obj, db):
+def remove(id, obj, db):
 		std = hw.query.filter_by(id=int(id)).first()
 		db.session.delete(std)
 		db.session.commit()
