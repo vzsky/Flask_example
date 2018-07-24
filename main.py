@@ -115,7 +115,7 @@ def complete(id):
 	return redirect(url_for('todolist'))
 
 @app.route('/todolist/rm/<id>')
-def rmtd(id):
+def rm(id):
 	if g.user :
 		rm(id, hw, db)
 	return redirect(url_for('todolist'))
