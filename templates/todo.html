@@ -16,7 +16,7 @@
 					</div>
 				</form>
 
-				<div class='container ml-5 mr-5 pr-5'>
+				<div class='container mb-5 ml-5 mr-5 pr-5'>
 					<div class='mt-2 mb-2'>
 						<h2>Ongoing HW.</h2>
 
@@ -68,7 +68,7 @@
 				  			</div>
 						</div>
 					</form>
-					<ul class='list-group'>
+					<ul class=' mb-5 list-group'>
 						{% for x in notes %}
 						<a class='list-group-item list-group-item-action list-group-item-primary' href="{{url_for('rmnt',id=x.id)}}"> {{x.text}}</a>
 						{% endfor %}
