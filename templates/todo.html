@@ -2,7 +2,7 @@
 {% block title %}Layki list{% endblock %}
 {% block body %}
 <body background="{{ url_for('static', filename = 'pg.png') }}">
-	<div class='container mt-5'>
+	<div class='container mt-5 mb-5'>
 		<div class="row">
 			<div class="col-lg">
 				<h1>{{user-}}'s Todolist <a class='ml-3' href="/logout"><button class='btn btn-primary'>Log out</button></a></h1>
@@ -68,7 +68,7 @@
 				  			</div>
 						</div>
 					</form>
-					<ul class=' mb-5 list-group'>
+					<ul class='list-group'>
 						{% for x in notes %}
 						<a class='list-group-item list-group-item-action list-group-item-primary' href="{{url_for('rmnt',id=x.id)}}"> {{x.text}}</a>
 						{% endfor %}
