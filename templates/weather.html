@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script type="text/javascript" src="{{ url_for('static', filename='javas.js') }}"></script>
+	<title>KVIS Weather</title>
+</head>
+<body>
+	<h1>{{location}}
+	{{now.time}}</h1><br>
+
+	Temp : {{now.temp}}<br>
+	{{now.phrase}}<br>
+	Feel like {{now.feel}}<br>
+	H : {{now.hl[0]}} / L : {{now.hl[1]}}<br>
+	Wind : {{now.wind}}<br>
+	Humidity : {{now.hum}}<br>
+
+	<h1>Forecast</h1>
+	{% for day in days %}
+
+	<h3>{{day.time}}</h3>
+	Temp : {{day.temp}}<br>
+	{{day.phrase}}<br>
+	H : {{day.hl[0]}} / L : {{day.hl[1]}}<br>
+	Precipitation rate : {{day.prec}}<br>
+	Wind : {{day.wind}}<br>
+	Humidity : {{day.hum}}<br>
+
+	{% endfor %}
