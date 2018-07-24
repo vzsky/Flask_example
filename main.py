@@ -2,7 +2,7 @@ from data_port import check, scan
 import json
 from flask import Flask, render_template, request, redirect, url_for, session, g, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from todolist import  add, rm, get
+from todolist import  additem, rm, get
 
 
 # App config ##################################################################################################
@@ -54,7 +54,7 @@ def login():
 		else :
 			if request.form['username'] and request.form['password']:
 				adduser = user(username=request.form['username'], password=request.form['password'])
-				db.session.add(adduser)
+				db.session.additem(adduser)
 				db.session.commit()
 				session['user'] = request.form['username']
 				return redirect(url_for('todolist'))
@@ -89,21 +89,21 @@ def todolist():
 def add():
 	if g.user :
 		thisuser = user.query.filter_by(username=session['user']).first()
-		add(thisuser, request.form['add'], 0, db)
+		additem(thisuser, request.form['add'], 0, db)
 	return redirect(url_for('todolist'))
 
 @app.route('/todolist/addt', methods=['POST'])
 def addt():
 	if g.user :
 		thisuser = user.query.filter_by(username=session['user']).first()
-		add(thisuser, request.form['addt'], 1, db)
+		additem(thisuser, request.form['addt'], 1, db)
 	return redirect(url_for('todolist'))
 
 @app.route('/todolist/addn', methods=['POST'])
 def addn():
 	if g.user :
 		thisuser = user.query.filter_by(username=session['user']).first()
-		add(thisuser, request.form['addn'], 2, db)
+		additem(thisuser, request.form['addn'], 2, db)
 	return redirect(url_for('todolist'))
 
 @app.route('/todolist/c/<id>')
