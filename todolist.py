@@ -5,12 +5,12 @@ def get(hw, thisuser):
 	notes = hw.query.filter_by(userid=thisuser.id).filter_by(field=2).all()
 	return complete, incom, todos, notes
 
-def additem(thisuser, tex, f, hw,  db):
-	td = hw(userid=thisuser.id, text=tex, complete=False, field=f)
+def additem(thisuser, tex, f, obj,  db):
+	td = obj(userid=thisuser.id, text=tex, complete=False, field=f)
 	db.session.add(td)
 	db.session.commit()
 
 def remove(id, obj, db):
-		std = hw.query.filter_by(id=int(id)).first()
+		std = obj.query.filter_by(id=int(id)).first()
 		db.session.delete(std)
 		db.session.commit()
