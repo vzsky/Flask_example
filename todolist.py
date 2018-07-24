@@ -3,7 +3,7 @@ def get(hw, thisuser):
 	incom = hw.query.filter_by(userid=thisuser.id).filter_by(complete=False).filter_by(field=0).all()
 	todos = hw.query.filter_by(userid=thisuser.id).filter_by(field=1).all()
 	notes = hw.query.filter_by(userid=thisuser.id).filter_by(field=2).all()
-	return session['user'], complete, incom, todos, notes
+	return complete, incom, todos, notes
 
 def add(thisuser, tex, f,  db):
 	td = hw(userid=thisuser.id, text=tex, complete=False, field=f)
