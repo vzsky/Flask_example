@@ -12,7 +12,7 @@ class user (db.Model) :
 	password = db.Column(db.String(100))
 	db.session.commit()
 
-def get (hw, thisuser)
+def get(hw, thisuser):
 	complete = hw.query.filter_by(userid=thisuser.id).filter_by(complete=True).filter_by(field=0).all()
 	incom = hw.query.filter_by(userid=thisuser.id).filter_by(complete=False).filter_by(field=0).all()
 	todos = hw.query.filter_by(userid=thisuser.id).filter_by(field=1).all()
