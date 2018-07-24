@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Weather{% endblock %}
+{% block body %}
+<body>
+	<div class='mt-5 ml-4 row'>
+		<div class='col-6-lg'>
+			<h2>{{location}}
+			{{now.time}}</h2><br>
+			<div class="mt-2 ml-2 row">
+				<div class='col-3-lg mt-3'>
+					<h6>Temp : {{now.temp}}</h6>
+					<h6>{{now.phrase}}</h6>
+					<h6>Feel like {{now.feel}}</h6>
+					<h6>H : {{now.hl[0]}} / L : {{now.hl[1]}}</h6>
+					<h6>Wind : {{now.wind}}</h6>
+					<h6>Humidity : {{now.hum}}</h6>
+				</div>
+				<div class='col-9-lg row'>
+				<div class='col-2 ml-3'>
+					<p>
+			  			<button id="btn1" class="btn btn-primary mt-3" type="button" data-toggle="collapse" data-target="#collapse1" aria-expanded="false" aria-controls="collapseExample">
+			    			Button 1
+			  			</button>
+			  			<button id="btn2" class="btn btn-primary mt-3" type="button" data-toggle="collapse" data-target="#collapse2" aria-expanded="false" aria-controls="collapseExample">
+			    			Button 2
+			  			</button>
+			  			<button id="btn3" class="btn btn-primary mt-3" type="button" data-toggle="collapse" data-target="#collapse3" aria-expanded="false" aria-controls="collapseExample">
+			    			Button 3
+			  			</button>
+					</p>
+				</div>
+
+				{% for day in days %}
+				<div class="collapse col-8-lg ml-4" id="collapse{{-day.id}}">
+		  			<div class="card card-body">
+		    			<h3>{{day.time}}</h3>
+						{{day.phrase}}<br>
+						H : {{day.hl[0]}} / L : {{day.hl[1]}}<br>
+						Precipitation rate : {{day.prec}}<br>
+						Wind : {{day.wind}}<br>
+						Humidity : {{day.hum}}<br>
+		 			</div>
+				</div>
+				{% endfor %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class='col-6-lg'></div>
+	</div>
+	<script type="text/javascript">
+		$(".btn").click(function() {
+  			var id = this.id.slice(this.id.length - 1, this.id.length);
+  			id = "#collapse" + id;
+    		$(".collapse").each(function() {
+    			$(this).hide();
+  			});
+  			$(id).show();
+		});
+	</script>
+</body>
+{% endblock %}
