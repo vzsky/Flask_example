@@ -54,7 +54,7 @@ def login():
 		else :
 			if request.form['username'] and request.form['password']:
 				adduser = user(username=request.form['username'], password=request.form['password'])
-				db.session.additem(adduser)
+				db.session.add(adduser)
 				db.session.commit()
 				session['user'] = request.form['username']
 				return redirect(url_for('todolist'))
@@ -89,21 +89,21 @@ def todolist():
 def add():
 	if g.user :
 		thisuser = user.query.filter_by(username=session['user']).first()
-		additem(thisuser, request.form['add'], 0, db)
+		additem(thisuser, request.form['add'], 0, hw, db)
 	return redirect(url_for('todolist'))
 
 @app.route('/todolist/addt', methods=['POST'])
 def addt():
 	if g.user :
 		thisuser = user.query.filter_by(username=session['user']).first()
-		additem(thisuser, request.form['addt'], 1, db)
+		additem(thisuser, request.form['addt'], 1, hw, db)
 	return redirect(url_for('todolist'))
 
 @app.route('/todolist/addn', methods=['POST'])
 def addn():
 	if g.user :
 		thisuser = user.query.filter_by(username=session['user']).first()
-		additem(thisuser, request.form['addn'], 2, db)
+		additem(thisuser, request.form['addn'], 2, hw, db)
 	return redirect(url_for('todolist'))
 
 @app.route('/todolist/c/<id>')

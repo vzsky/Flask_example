@@ -5,7 +5,7 @@ def get(hw, thisuser):
 	notes = hw.query.filter_by(userid=thisuser.id).filter_by(field=2).all()
 	return complete, incom, todos, notes
 
-def additem(thisuser, tex, f,  db):
+def additem(thisuser, tex, f, hw,  db):
 	td = hw(userid=thisuser.id, text=tex, complete=False, field=f)
 	db.session.add(td)
 	db.session.commit()
