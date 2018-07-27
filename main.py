@@ -2,7 +2,7 @@ from data_port import check, scan
 import json
 from flask import Flask, render_template, request, redirect, url_for, session, g, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from todolist import  additem, remove, get
+from todolist import  additem, remove
 from weat import weather
 
 
@@ -83,12 +83,16 @@ def todolist():
 		if thisuser.username == 'admin':
 			alluser = user.query.all()
 			return render_template('admin.html', alluser=alluser)
-		complete, incom, todos, notes = get(hw, thisuser)
+		complete = hw.query.filter_by(userid=thisuser.id).filter_by(complete=True).filter_by(field=0).all()
+		incom = hw.query.filter_by(userid=thisuser.id).filter_by(complete=False).filter_by(field=0).all()
+		todos = hw.query.filter_by(userid=thisuser.id).filter_by(field=1).all()
+		notes = hw.query.filter_by(userid=thisuser.id).filter_by(field=2).all()
 		return render_template('todo.html',user=session['user'], complete=complete, incom=incom, todos=todos, notes=notes)
 	return redirect(url_for('login'))
 
 @app.route('/todolist/add', methods=['POST'])
 def add():
+	return '<h1> hey</h1'
 	if g.user :
 		thisuser = user.query.filter_by(username=session['user']).first()
 		additem(thisuser, request.form['add'], 0, hw, db)
