@@ -95,7 +95,7 @@ def add():
 	return '<h1> hey</h1'
 	if g.user :
 		thisuser = user.query.filter_by(username=session['user']).first()
-		td = obj(userid=thisuser.id, text=request.form['add'], complete=False, field=0)
+		td = hw(userid=thisuser.id, text=request.form['add'], complete=False, field=0)
 		db.session.add(td)
 		db.session.commit()
 	return redirect(url_for('todolist'))
@@ -104,7 +104,7 @@ def add():
 def addt():
 	if g.user :
 		thisuser = user.query.filter_by(username=session['user']).first()
-		td = obj(userid=thisuser.id, text=request.form['addt'], complete=False, field=1)
+		td = hw(userid=thisuser.id, text=request.form['addt'], complete=False, field=1)
 		db.session.add(td)
 		db.session.commit()
 	return redirect(url_for('todolist'))
@@ -113,7 +113,7 @@ def addt():
 def addn():
 	if g.user :
 		thisuser = user.query.filter_by(username=session['user']).first()
-		td = obj(userid=thisuser.id, text=request.form['addn'], complete=False, field=2)
+		td = hw(userid=thisuser.id, text=request.form['addn'], complete=False, field=2)
 		db.session.add(td)
 		db.session.commit()
 	return redirect(url_for('todolist'))
@@ -129,7 +129,7 @@ def complete(id):
 @app.route('/todolist/rm/<id>')
 def rm(id):
 	if g.user :
-		std = obj.query.filter_by(id=int(id)).first()
+		std = hw.query.filter_by(id=int(id)).first()
 		db.session.delete(std)
 		db.session.commit()
 	return redirect(url_for('todolist'))
