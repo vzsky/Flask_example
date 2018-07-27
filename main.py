@@ -2,7 +2,7 @@ from data_port import check, scan
 import json
 from flask import Flask, render_template, request, redirect, url_for, session, g, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from todolist import  additem, remove, get
+from weat import weather
 
 
 # App config ##################################################################################################
@@ -12,6 +12,7 @@ app = Flask(__name__)
 app.secret_key = '1qaz@WSX3edc$RFV5tgb^YHN'
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/talay/dev_root/todo.db'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////Users/my99n/Desktop/layki/dev_root/todo.db'
 
 db = SQLAlchemy(app)
 
@@ -64,9 +65,11 @@ def login():
 	return render_template('login.html')
 	
 
-@app.route('/todolist/admin/rmuser/<id>')
-def rmuser(id):
-	remove(id, user, db)
+@app.route('/todolist/admin/rmuser/<idi>')
+def rmuser(idi):
+	std = user.query.filter_by(id=int(idi)).first()
+	db.session.delete(std)
+	db.session.commit()
 	return redirect(url_for('todolist'))
 
 @app.route('/logout')
@@ -81,7 +84,10 @@ def todolist():
 		if thisuser.username == 'admin':
 			alluser = user.query.all()
 			return render_template('admin.html', alluser=alluser)
-		complete, incom, todos, notes = get(hw, thisuser)
+		complete = hw.query.filter_by(userid=thisuser.id).filter_by(complete=True).filter_by(field=0).all()
+		incom = hw.query.filter_by(userid=thisuser.id).filter_by(complete=False).filter_by(field=0).all()
+		todos = hw.query.filter_by(userid=thisuser.id).filter_by(field=1).all()
+		notes = hw.query.filter_by(userid=thisuser.id).filter_by(field=2).all()
 		return render_template('todo.html',user=session['user'], complete=complete, incom=incom, todos=todos, notes=notes)
 	return redirect(url_for('login'))
 
@@ -89,21 +95,34 @@ def todolist():
 def add():
 	if g.user :
 		thisuser = user.query.filter_by(username=session['user']).first()
-		additem(thisuser, request.form['add'], 0, hw, db)
+		td = hw(userid=thisuser.id, text=request.form['add'], complete=False, field=0)
+		db.session.add(td)
+		db.session.commit()
+		complete = hw.query.filter_by(userid=thisuser.id).filter_by(complete=True).filter_by(field=0).all()
+		incom = hw.query.filter_by(userid=thisuser.id).filter_by(complete=False).filter_by(field=0).all()
+		todos = hw.query.filter_by(userid=thisuser.id).filter_by(field=1).all()
+		notes = hw.query.filter_by(userid=thisuser.id).filter_by(field=2).all()
+		return render_template('todo.html',user=session['user'], complete=complete, incom=incom, todos=todos, notes=notes)
 	return redirect(url_for('todolist'))
 
 @app.route('/todolist/addt', methods=['POST'])
 def addt():
 	if g.user :
 		thisuser = user.query.filter_by(username=session['user']).first()
-		additem(thisuser, request.form['addt'], 1, hw, db)
+		td = hw(userid=thisuser.id, text=request.form['addt'], complete=False, field=1)
+		db.session.add(td)
+		db.session.commit()
+		return redirect(url_for('todolist'))
 	return redirect(url_for('todolist'))
 
 @app.route('/todolist/addn', methods=['POST'])
 def addn():
 	if g.user :
 		thisuser = user.query.filter_by(username=session['user']).first()
-		additem(thisuser, request.form['addn'], 2, hw, db)
+		td = hw(userid=thisuser.id, text=request.form['addn'], complete=False, field=2)
+		db.session.add(td)
+		db.session.commit()
+		return redirect(url_for('todolist'))
 	return redirect(url_for('todolist'))
 
 @app.route('/todolist/c/<id>')
@@ -112,12 +131,16 @@ def complete(id):
 		ctd = hw.query.filter_by(id=int(id)).first()
 		ctd.complete = True
 		db.session.commit()
+		return redirect(url_for('todolist'))
 	return redirect(url_for('todolist'))
 
-@app.route('/todolist/rm/<id>')
-def rm(id):
+@app.route('/todolist/rm/<idi>')
+def rm(idi):
 	if g.user :
-		remove(id, hw, db)
+		std = hw.query.filter_by(id=int(idi)).first()
+		db.session.delete(std)
+		db.session.commit()
+		return redirect(url_for('todolist'))
 	return redirect(url_for('todolist'))
 
 
@@ -149,6 +172,21 @@ def update():
     res, c = check(_ip, port)
     return jsonify({'result' : res, 'color' : c })
 
+#This is for WEATHER #########################################################################################
+
+@app.route('/weather')
+def weat():
+	loca , now, days = weather()
+	return render_template('weather.html', location=loca, now=now, days=days)
+
+#This is for SHOW #########################################################################################
+
+@app.route('/show')
+def show():
+	thisuser = user.query.filter_by(username="Touch").first()
+	loca , now, days = weather()
+	complete, incom, todos, notes = get(hw, thisuser)
+	return render_template("show.html", location=loca, now=now, days=days, complete=complete, incom=incom, todos=todos, notes=notes)
 
 ############################################################################################################
 
