@@ -98,7 +98,11 @@ def add():
 		td = hw(userid=thisuser.id, text=request.form['add'], complete=False, field=0)
 		db.session.add(td)
 		db.session.commit()
-		print(hw.query.filter_by(userid=thisuser.id).filter_by(complete=False).filter_by(field=0).all())
+		complete = hw.query.filter_by(userid=thisuser.id).filter_by(complete=True).filter_by(field=0).all()
+		incom = hw.query.filter_by(userid=thisuser.id).filter_by(complete=False).filter_by(field=0).all()
+		todos = hw.query.filter_by(userid=thisuser.id).filter_by(field=1).all()
+		notes = hw.query.filter_by(userid=thisuser.id).filter_by(field=2).all()
+		return render_template('todo.html',user=session['user'], complete=complete, incom=incom, todos=todos, notes=notes)
 	return redirect(url_for('todolist'))
 
 @app.route('/todolist/addt', methods=['POST'])
@@ -108,6 +112,7 @@ def addt():
 		td = hw(userid=thisuser.id, text=request.form['addt'], complete=False, field=1)
 		db.session.add(td)
 		db.session.commit()
+		return redirect(url_for('todolist'))
 	return redirect(url_for('todolist'))
 
 @app.route('/todolist/addn', methods=['POST'])
@@ -117,6 +122,7 @@ def addn():
 		td = hw(userid=thisuser.id, text=request.form['addn'], complete=False, field=2)
 		db.session.add(td)
 		db.session.commit()
+		return redirect(url_for('todolist'))
 	return redirect(url_for('todolist'))
 
 @app.route('/todolist/c/<id>')
@@ -125,6 +131,7 @@ def complete(id):
 		ctd = hw.query.filter_by(id=int(id)).first()
 		ctd.complete = True
 		db.session.commit()
+		return redirect(url_for('todolist'))
 	return redirect(url_for('todolist'))
 
 @app.route('/todolist/rm/<idi>')
@@ -133,6 +140,7 @@ def rm(idi):
 		std = hw.query.filter_by(id=int(idi)).first()
 		db.session.delete(std)
 		db.session.commit()
+		return redirect(url_for('todolist'))
 	return redirect(url_for('todolist'))
 
 
