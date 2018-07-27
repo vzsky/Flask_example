@@ -98,7 +98,7 @@ def add():
 		td = hw(userid=thisuser.id, text=request.form['add'], complete=False, field=0)
 		db.session.add(td)
 		db.session.commit()
-		return hw.query.filter_by(userid=thisuser.id).filter_by(complete=False).filter_by(field=0).all()
+		print(hw.query.filter_by(userid=thisuser.id).filter_by(complete=False).filter_by(field=0).all())
 	return redirect(url_for('todolist'))
 
 @app.route('/todolist/addt', methods=['POST'])
