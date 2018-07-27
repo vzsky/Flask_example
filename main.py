@@ -12,8 +12,8 @@ from weat import weather
 app = Flask(__name__)
 app.secret_key = '1qaz@WSX3edc$RFV5tgb^YHN'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/talay/dev_root/todo.db'
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////Users/my99n/Desktop/layki/dev_root/todo.db'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/talay/dev_root/todo.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////Users/my99n/Desktop/layki/dev_root/todo.db'
 
 db = SQLAlchemy(app)
 
@@ -66,9 +66,11 @@ def login():
 	return render_template('login.html')
 	
 
-@app.route('/todolist/admin/rmuser/<id>')
-def rmuser(id):
-	remove(id, user, db)
+@app.route('/todolist/admin/rmuser/<idi>')
+def rmuser(idi):
+	std = user.query.filter_by(id=int(idi)).first()
+	db.session.delete(std)
+	db.session.commit()
 	return redirect(url_for('todolist'))
 
 @app.route('/logout')
