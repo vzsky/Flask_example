@@ -92,7 +92,6 @@ def todolist():
 
 @app.route('/todolist/add', methods=['POST'])
 def add():
-	return '<h1> hey</h1'
 	if g.user :
 		thisuser = user.query.filter_by(username=session['user']).first()
 		td = hw(userid=thisuser.id, text=request.form['add'], complete=False, field=0)
@@ -126,10 +125,10 @@ def complete(id):
 		db.session.commit()
 	return redirect(url_for('todolist'))
 
-@app.route('/todolist/rm/<id>')
-def rm(id):
+@app.route('/todolist/rm/<idi>')
+def rm(idi):
 	if g.user :
-		std = hw.query.filter_by(id=int(id)).first()
+		std = hw.query.filter_by(id=int(idi)).first()
 		db.session.delete(std)
 		db.session.commit()
 	return redirect(url_for('todolist'))
