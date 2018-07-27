@@ -3,6 +3,7 @@ import json
 from flask import Flask, render_template, request, redirect, url_for, session, g, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from todolist import  additem, remove, get
+from weat import weather
 
 
 # App config ##################################################################################################
@@ -12,6 +13,7 @@ app = Flask(__name__)
 app.secret_key = '1qaz@WSX3edc$RFV5tgb^YHN'
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/talay/dev_root/todo.db'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////Users/my99n/Desktop/layki/dev_root/todo.db'
 
 db = SQLAlchemy(app)
 
@@ -149,6 +151,21 @@ def update():
     res, c = check(_ip, port)
     return jsonify({'result' : res, 'color' : c })
 
+#This is for WEATHER #########################################################################################
+
+@app.route('/weather')
+def weat():
+	loca , now, days = weather()
+	return render_template('weather.html', location=loca, now=now, days=days)
+
+#This is for SHOW #########################################################################################
+
+@app.route('/show')
+def show():
+	thisuser = user.query.filter_by(username="Touch").first()
+	loca , now, days = weather()
+	complete, incom, todos, notes = get(hw, thisuser)
+	return render_template("show.html", location=loca, now=now, days=days, complete=complete, incom=incom, todos=todos, notes=notes)
 
 ############################################################################################################
 
