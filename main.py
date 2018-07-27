@@ -79,6 +79,7 @@ def logout():
 
 @app.route('/todolist')
 def todolist():
+	return "YAY"
 	if g.user:
 		thisuser = user.query.filter_by(username=session['user']).first()
 		if thisuser.username == 'admin':
