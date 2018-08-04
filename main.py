@@ -2,7 +2,6 @@ from data_port import check, scan
 import json
 from flask import Flask, render_template, request, redirect, url_for, session, g, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from weat import weather
 
 
 # App config ##################################################################################################
@@ -11,13 +10,14 @@ from weat import weather
 app = Flask(__name__)
 app.secret_key = '1qaz@WSX3edc$RFV5tgb^YHN'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/talay/dev_root/todo.db'
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////Users/my99n/Desktop/layki/dev_root/todo.db'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/talay/dev_root/todo.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////Users/my99n/Desktop/Lay/Layki-old/todo.db'
 
 db = SQLAlchemy(app)
 
 
 #This is for TODOLIST ##########################################################################################
+
 
 class hw (db.Model) :
 	id = db.Column(db.Integer, primary_key=True)
@@ -65,10 +65,10 @@ def login():
 	return render_template('login.html')
 	
 
-@app.route('/todolist/admin/rmuser/<idi>')
-def rmuser(idi):
-	std = user.query.filter_by(id=int(idi)).first()
-	db.session.delete(std)
+@app.route('/todolist/admin/rmuser/<id>')
+def rmuser(id):
+	rmuser=user.query.filter_by(id=id).first()
+	db.session.delete(rmuser)
 	db.session.commit()
 	return redirect(url_for('todolist'))
 
@@ -98,11 +98,6 @@ def add():
 		td = hw(userid=thisuser.id, text=request.form['add'], complete=False, field=0)
 		db.session.add(td)
 		db.session.commit()
-		complete = hw.query.filter_by(userid=thisuser.id).filter_by(complete=True).filter_by(field=0).all()
-		incom = hw.query.filter_by(userid=thisuser.id).filter_by(complete=False).filter_by(field=0).all()
-		todos = hw.query.filter_by(userid=thisuser.id).filter_by(field=1).all()
-		notes = hw.query.filter_by(userid=thisuser.id).filter_by(field=2).all()
-		return render_template('todo.html',user=session['user'], complete=complete, incom=incom, todos=todos, notes=notes)
 	return redirect(url_for('todolist'))
 
 @app.route('/todolist/addt', methods=['POST'])
@@ -112,7 +107,14 @@ def addt():
 		td = hw(userid=thisuser.id, text=request.form['addt'], complete=False, field=1)
 		db.session.add(td)
 		db.session.commit()
-		return redirect(url_for('todolist'))
+	return redirect(url_for('todolist'))
+
+@app.route('/todolist/rmtodo/<id>')
+def rmtd(id):
+	if g.user :
+		std = hw.query.filter_by(id=int(id)).first()
+		db.session.delete(std)
+		db.session.commit()
 	return redirect(url_for('todolist'))
 
 @app.route('/todolist/addn', methods=['POST'])
@@ -122,7 +124,14 @@ def addn():
 		td = hw(userid=thisuser.id, text=request.form['addn'], complete=False, field=2)
 		db.session.add(td)
 		db.session.commit()
-		return redirect(url_for('todolist'))
+	return redirect(url_for('todolist'))
+
+@app.route('/todolist/rmnote/<id>')
+def rmnt(id):
+	if g.user :
+		std = hw.query.filter_by(id=int(id)).first()
+		db.session.delete(std)
+		db.session.commit()
 	return redirect(url_for('todolist'))
 
 @app.route('/todolist/c/<id>')
@@ -131,18 +140,15 @@ def complete(id):
 		ctd = hw.query.filter_by(id=int(id)).first()
 		ctd.complete = True
 		db.session.commit()
-		return redirect(url_for('todolist'))
 	return redirect(url_for('todolist'))
 
-@app.route('/todolist/rm/<idi>')
-def rm(idi):
+@app.route('/todolist/s/<id>')
+def sent(id):
 	if g.user :
-		std = hw.query.filter_by(id=int(idi)).first()
+		std = hw.query.filter_by(id=int(id)).first()
 		db.session.delete(std)
 		db.session.commit()
-		return redirect(url_for('todolist'))
 	return redirect(url_for('todolist'))
-
 
 
 #This is for PORTCHECKER #####################################################################################
@@ -172,21 +178,6 @@ def update():
     res, c = check(_ip, port)
     return jsonify({'result' : res, 'color' : c })
 
-#This is for WEATHER #########################################################################################
-
-@app.route('/weather')
-def weat():
-	loca , now, days = weather()
-	return render_template('weather.html', location=loca, now=now, days=days)
-
-#This is for SHOW #########################################################################################
-
-@app.route('/show')
-def show():
-	thisuser = user.query.filter_by(username="Touch").first()
-	loca , now, days = weather()
-	complete, incom, todos, notes = get(hw, thisuser)
-	return render_template("show.html", location=loca, now=now, days=days, complete=complete, incom=incom, todos=todos, notes=notes)
 
 ############################################################################################################
 
