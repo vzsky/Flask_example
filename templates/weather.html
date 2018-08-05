@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Layki | Weather{% endblock %}
+{% block body %}
+<body>
+	<div class='mt-5 ml-4 row'>
+		<div class='col-6-lg'>
+			<h2>{{location}}
+			{{now.time}}</h2><br>
+			<div class="mt-2 ml-2">
+				<div class='card'>
+					<h6>Temp : {{now.temp}}</h6>
+					<h6>{{now.phrase}}</h6>
+					<h6>Feel like {{now.feel}}</h6>
+					<h6>H : {{now.hl[0]}} / L : {{now.hl[1]}}</h6>
+					<h6>Wind : {{now.wind[0]}} {{now.wind[1]}}</h6>
+					<h6>Humidity : {{now.hum}}</h6>
+				</div>
+				<div>
+					<div class="accordion" id="accordionExample">
+						{% for day in days %}
+						<div class="card">
+						    <div class="card-header" id="headingOne">
+						      	<h5 class="mb-0">
+						        	<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse{{-day.id}}"aria-expanded="true" aria-controls="collapse{{-day.id}}">
+						          		Collapsible
+						        	</button>
+						     	</h5>
+						   	</div>
+						</div>
+	    				<div id="collapse{{-day.id}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+						   	<div class="card-body">
+						      	<h3>{{day.time[0]}} {{day.time[1]}}</h3>
+								{{day.phrase}}<br>
+								H : {{day.hl[0]}} / L : {{day.hl[2]}}<br>
+								Precipitation rate : {{day.prec}}<br>
+								Wind : {{day.wind[0]}}{{day.wind[1]}}<br>
+								Humidity : {{day.hum}}<br>
+						    </div>
+					   	</div>
+					    {% endfor %}
+	  				</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+{% endblock %}

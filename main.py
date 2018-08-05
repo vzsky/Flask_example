@@ -2,7 +2,7 @@ from data_port import check, scan
 import json
 from flask import Flask, render_template, request, redirect, url_for, session, g, jsonify
 from flask_sqlalchemy import SQLAlchemy
-
+from weat import weather
 
 # App config ##################################################################################################
 
@@ -10,8 +10,8 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 app.secret_key = '1qaz@WSX3edc$RFV5tgb^YHN'
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/talay/dev_root/todo.db'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////Users/my99n/Desktop/Lay/Layki-old/todo.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/talay/dev_root/todo.db'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////Users/my99n/Desktop/Lay/Layki-old/todo.db'
 
 db = SQLAlchemy(app)
 
@@ -177,6 +177,26 @@ def update():
     port = int(request.form['port'])
     res, c = check(_ip, port)
     return jsonify({'result' : res, 'color' : c })
+
+#This is for WEATHER ######################################################################################
+
+@app.route('/weather')
+def w():
+	loca, now, days = weather()
+	return render_template('weather.html', location=loca, now=now, days=days)
+
+#This is for MONITORING #####################################################################################
+
+@app.route('/show')
+def show():
+	loca, now, days = weather()
+	USERNAME = "Touch"
+	USER = user.query.filter_by(username=USERNAME).first()
+	complete = hw.query.filter_by(userid=USER.id).filter_by(complete=True).filter_by(field=0).all()
+	incom = hw.query.filter_by(userid=USER.id).filter_by(complete=False).filter_by(field=0).all()
+	todos = hw.query.filter_by(userid=USER.id).filter_by(field=1).all()
+	notes = hw.query.filter_by(userid=USER.id).filter_by(field=2).all()
+	return render_template('show.html', location=loca, now=now, days=days)#, complete=complete, incom=incom, todos=todos, notes=notes)
 
 
 ############################################################################################################

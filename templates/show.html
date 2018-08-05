@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+{% block title %} Layki | Home {% endblock %}
+{% block body %}
+<body>
+  <div id="carouselExampleControls" class="carousel slide mt-5 " data-ride="carousel">
+    <div class="carousel-inner">
+
+      <div class="carousel-item active">
+        <div class='container'>
+          <h2>{{location}}
+            {{now.time}}</h2><br>
+          <div class="row">
+            <div class="col-lg-6">
+              <div class='row'>
+                <div class="col-6">
+                  <center>
+                    <h1 class="display-4">Now</h1>
+                    <h2>{{days[0].time[1]}}</h2>
+                    <div class='m-4'><img id="d0-img" src=""><br></div>
+                    <span>{{now.phrase}}</span>
+                    <h1 class='display-3'>{{now.temp}}</h1>
+                    <span>Feel like {{now.feel}}</span><br><br>
+                    <div class="row">
+                      <div class="col-4"><center>
+                        <span><img src="{{url_for('static', filename = 'images/icon-water.png')}}" alt=""> <h6>{{now.hum}}</h6></span>
+                      </center></div>
+                      <div class="col-4"><center>
+                        <span><img src="{{url_for('static', filename = 'images/icon-wind.png')}}" alt=""> <h6>{{now.wind[0]}}</h6></span>
+                      </center></div>
+                      <div class="col-4"><center>
+                        <span><img src="{{url_for('static', filename = 'images/icon-compass.png')}}" alt=""> <h6>{{now.wind[1]}}</h6></span>
+                      </center></div>
+                    </div>
+                  </center>
+                </div>
+                
+                <div class="col-6">
+                  <center>
+                    <h1 class="display-4">{{days[0].time[0]}}</h1>
+                    <h2>{{days[0].time[1]}}</h2>
+                    <div class='m-4'><img id="d1-img" src=""><br></div>
+                    <span>{{days[0].phrase}}</span>
+                    <h1>{{days[0].hl[0]}} | {{days[0].hl[2]}}</h1><br>
+                    <div class="row">
+                      <div class="col-6"><center>
+                        <span><img src="{{url_for('static', filename = 'images/icon-water.png')}}" alt=""> <h6>{{days[0].hum}}</h6></span>
+                      </center></div>
+                      <div class="col-6"><center>
+                        <span><img src="{{url_for('static', filename = 'images/icon-umberella.png')}}" alt=""> <h6>{{days[0].prec}}</h6></span>
+                      </center></div>
+                      <div class="col-6"><center>
+                        <span><img src="{{url_for('static', filename = 'images/icon-wind.png')}}" alt=""> <h6>{{days[0].wind[0]}}</h6></span>
+                      </center></div>
+                      <div class="col-6"><center>
+                        <span><img src="{{url_for('static', filename = 'images/icon-compass.png')}}" alt=""> <h6>{{days[0].wind[1]}}</h6></span>
+                      </center></div>
+                    </div>
+                  </center>
+                </div>
+              </div>
+            </div>
+            <div class='col-lg-6'>
+              <div class='row'>
+                <div class="col-6">
+                  <center>
+                    <h1 class="display-4">{{days[1].time[0]}}</h1>
+                    <h2>{{days[1].time[1]}}</h2>
+                    <div class='m-4'><img id="d2-img" src=""><br></div>
+                    <span>{{days[1].phrase}}</span>
+                    <h1>{{days[1].hl[0]}} | {{days[1].hl[2]}}</h1><br>
+                    <div class="row">
+                      <div class="col-6"><center>
+                        <span><img src="{{url_for('static', filename = 'images/icon-water.png')}}" alt=""> <h6>{{days[1].hum}}</h6></span>
+                      </center></div>
+                      <div class="col-6"><center>
+                        <span><img src="{{url_for('static', filename = 'images/icon-umberella.png')}}" alt=""> <h6>{{days[1].prec}}</h6></span>
+                      </center></div>
+                      <div class="col-6"><center>
+                        <span><img src="{{url_for('static', filename = 'images/icon-wind.png')}}" alt=""> <h6>{{days[1].wind[0]}}</h6></span>
+                      </center></div>
+                      <div class="col-6"><center>
+                        <span><img src="{{url_for('static', filename = 'images/icon-compass.png')}}" alt=""> <h6>{{days[1].wind[1]}}</h6></span>
+                      </center></div>
+                    </div>
+                  </center>
+                </div>
+                <div class="col-6">
+                  <center>
+                    <h1 class="display-4">{{days[2].time[0]}}</h1>
+                    <h2>{{days[2].time[1]}}</h2>
+                    <div class='m-4'><img id="d3-img" src=""><br></div>
+                    <span>{{days[2].phrase}}</span>
+                    <h1>{{days[2].hl[0]}} | {{days[2].hl[2]}}</h1><br>
+                    <div class="row">
+                      <div class="col-6"><center>
+                        <span><img src="{{url_for('static', filename = 'images/icon-water.png')}}" alt=""> <h6>{{days[2].hum}}</h6></span>
+                      </center></div>
+                      <div class="col-6"><center>
+                        <span><img src="{{url_for('static', filename = 'images/icon-umberella.png')}}" alt=""> <h6>{{days[2].prec}}</h6></span>
+                      </center></div>
+                      <div class="col-6"><center>
+                        <span><img src="{{url_for('static', filename = 'images/icon-wind.png')}}" alt=""> <h6>{{days[2].wind[0]}}</h6></span>
+                      </center></div>
+                      <div class="col-6"><center>
+                        <span><img src="{{url_for('static', filename = 'images/icon-compass.png')}}" alt=""> <h6>{{days[2].wind[1]}}</h6></span>
+                      </center></div>
+                    </div>
+                  </center>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="carousel-item">
+        <div class='container mt-5 mb-5'>
+          <div class="row">
+            <div class="col-lg">
+              <h1>Touch's Todolist</h1>
+
+              <div class='container mb-5 ml-5 mr-5 pr-5'>
+                <div class='mt-2 mb-2'>
+                  <h2>Ongoing HW.</h2>
+
+                  <ul class='list-group'>
+                    {% for x in incom %}
+                    <span class='list-group-item list-group-item-action list-group-item-warning' href="#"> {{x.text}}</span>
+                    {% endfor %}
+                  </ul>
+                </div>
+                <div class='mt-2 mb-2'>
+                  <h2>Sending</h2>
+
+                  <ul class='list-group'>
+                    {% for x in complete %}
+                    <span class='list-group-item list-group-item-action list-group-item-success' href="#"> {{x.text}}</span>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </div>
+              <br>
+              <br>
+            </div>
+
+            <div class="col-lg">
+              <div class="container mt-3">
+                <h2>Todo list</h2>
+
+                <ul class='list-group'>
+                  {% for x in todos %}
+                  <span class='list-group-item list-group-item-action list-group-item-primary' href="#"> {{x.text}}</span>
+                  {% endfor %}
+                </ul>
+              </div>
+
+              <div class="container mt-3">
+                <h2>Note</h2>
+                
+                <ul class='list-group'>
+                  {% for x in notes %}
+                  <span class='list-group-item list-group-item-action list-group-item-primary' href="#"> {{x.text}}</span>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+  <script type="text/javascript">
+    var phrase = ["{{now.phrase}}", "{{days[0].phrase}}", "{{days[1].phrase}}", "{{days[2].phrase}}"];
+    console.log(phrase);
+    console.log("Thanks for icons from icon8!")
+    for (var i = 0; i<4; i++){
+      var picid = "#d"+i.toString()+"-img";
+      switch(phrase[i]){
+        case "Rain" :
+          $(picid).attr("src", "{{url_for('static', filename = 'images/Rain.png')}}")
+          break;
+        case "Light Rain" :
+          $(picid).attr("src", "{{url_for('static', filename = 'images/LightRain.png')}}")
+          break;
+        case "Thunderstorms" :
+          $(picid).attr("src", "{{url_for('static', filename = 'images/ThunderS.png')}}")
+          break;
+        default :
+          $(picid).attr("src", "{{url_for('static', filename = 'images/DEF.png')}}")
+          break;
+      }
+    }
+  </script>
+</body>
+{% endblock %}
