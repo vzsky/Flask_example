@@ -8,7 +8,7 @@ from weat import weather
 
 
 app = Flask(__name__)
-app.secret_key = '1qaz@WSX3edc$RFV5tgb^YHN'
+app.secret_key = ''
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/talay/dev_root/todo.db'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////Users/my99n/Desktop/Lay/Layki-old/todo.db'
